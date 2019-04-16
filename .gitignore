@@ -13,4 +13,6 @@ __pycache__/
 # Distribution / packaging
 develop-eggs/
 *.egg-info/
+build/
+dist/
 
