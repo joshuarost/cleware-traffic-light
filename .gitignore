@@ -1,0 +1,16 @@
+# compiled python files
+*.pyc
+
+# swap files
+*.swp
+
+# python bytecode files
+__pycache__/
+
+# coverage folder
+.coverage
+
+# Distribution / packaging
+develop-eggs/
+*.egg-info/
+
