@@ -41,6 +41,20 @@ class ClewareTrafficLight:
                 idProduct=ID_PRODUCT)
         if self.device is None:
             raise TrafficLightError('Cleware traffic light not found!')
+        self.reattach = False
+        self.detach()
+
+    def attach(self):
+        """Attaches the device back to the kernel"""
+        usb.util.dispose_resources(self.device)
+        if self.reattach:
+            self.device.attach_kernel_driver(self.interface)
+
+    def detach(self):
+        """Detaches the device from to kernel so it can be used"""
+        if self.device.is_kernel_driver_active(INTERFACE):
+            self.device.detach_kernel_driver(INTERFACE)
+            self.reattach = True
 
     @staticmethod
     def find_devices():
@@ -76,7 +90,7 @@ class ClewareTrafficLight:
         except Exception as exc:
             raise TrafficLightError(str(exc)) from exc
         finally:
-            usb.util.dispose_resources(self.device)
+            self.attach()
 
     def __getattr__(self, name):
         """Parses attribut calls in function"""
