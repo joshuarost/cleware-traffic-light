@@ -7,7 +7,7 @@ from traffic_light.core import ClewareTrafficLight, State, Color
 
 def main(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(
-        prog="traffic_light",
+        prog="ctl",
         description='Turns the led of the cleware traffic light on or off'
     )
     parser.add_argument('-r', '--red',

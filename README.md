@@ -39,7 +39,7 @@ pip3 install cleware-traffic-light
 ### Help
 
 ```bash
-usage: traffic_light [-h] [-r {on,off}] [-y {on,off}] [-g {on,off}]
+usage: ctl [-h] [-r {on,off}] [-y {on,off}] [-g {on,off}]
                      [-a ADDRESS]
 
 Turns the led of the cleware traffic light on or off
