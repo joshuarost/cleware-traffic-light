@@ -10,7 +10,7 @@ It supports multiple traffic light control and the usage as a module in your own
 ### Module
 
 ```python
-from cleware-traffic-light import ClewareTrafficLight, Color, State
+from traffic_light import ClewareTrafficLight, Color, State
 
 ClewareTrafficLight().red_on()
 ClewareTrafficLight().yellow_off()
@@ -33,10 +33,24 @@ ctl --red off --green on --address 19
 use **pip** to install **cleware-traffic-light**
 
 ```bash
-pip3 install cleware-traffic-light
+sudo pip3 install cleware-traffic-light
+```
+### Linux
+
+To use the CLI as a user you first have to create the USB rule
+```bash
+# go to directory
+cd /etc/udev/rules.d/
+
+# create file with the rule
+vi 99-clewareampel.rules
+```
+**Content**
+```bash
+SUBSYSTEM=="usb", ATTR{idVendor}=="0d50", ATTR{idProduct}=="0008", MODE="666"
 ```
 
-### Help
+## Help
 
 ```bash
 usage: ctl [-h] [-r {on,off}] [-y {on,off}] [-g {on,off}]
