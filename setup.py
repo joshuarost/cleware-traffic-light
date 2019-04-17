@@ -5,16 +5,16 @@ with open("README.md", "r", encoding='utf-8') as desc_file:
 
 setup(
     name='cleware-traffic-light',
-    version='1.0.1',
+    version='1.0.2',
     description='Python3 modul and cli tool to controll the Cleware traffic light',
     long_description=long_description,
     long_description_content_type="text/markdown",
     author='Josh Rost',
     author_email='joshua.s.rost@gmail.com',
-    url='https://github.com/joshrost/cleware-traffic-light'
+    url='https://github.com/joshrost/cleware-traffic-light',
     packages=find_packages(),
     install_requires=['pyusb'],
     entry_points={
-        'console_scripts': ['ctl=traffic_light'],
+        'console_scripts': ['ctl=traffic_light.__main__:main'],
     }
 )

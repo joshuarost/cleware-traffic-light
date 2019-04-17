@@ -89,6 +89,7 @@ class ClewareTrafficLight:
         return lambda: self.set_led(color, state)
 
     def __str__(self):
+        """Converts instance into string with important imformations"""
         return ("== Cleware Traffic Light ==\n"
                 "Address: {} \n"
                 "IdVendor: {} \n"

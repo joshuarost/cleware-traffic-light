@@ -1,5 +1,6 @@
 # cleware-traffic-light
-[![][license badge]][license link]
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://stash.intranet.roche.com/stash/users/rostj1/repos/cleware-traffic-light/browse/LICENSE )
+[![PyPI version](https://badge.fury.io/py/cleware-traffic-light.svg)](https://badge.fury.io/py/cleware-traffic-light)
 
 **cleware-traffic-light** an easy to use CLI tool written in Python3 to control the cleware USB [traffic light](http://www.cleware-shop.de/USB-MiniTrafficLight-EN).
 It supports multiple traffic light control and the usage as a module in your own Python application.
@@ -54,6 +55,3 @@ optional arguments:
   -a ADDRESS, --address ADDRESS
                         Specifies which traffic light should be used
 ```
-
-[license badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
-[license link]: https://stash.intranet.roche.com/stash/users/rostj1/repos/cleware-traffic-light/browse/LICENSE
