@@ -48,7 +48,7 @@ class ClewareTrafficLight:
         """Attaches the device back to the kernel"""
         usb.util.dispose_resources(self.device)
         if self.reattach:
-            self.device.attach_kernel_driver(self.interface)
+            self.device.attach_kernel_driver(INTERFACE)
 
     def detach(self):
         """Detaches the device from to kernel so it can be used"""

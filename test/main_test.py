@@ -49,7 +49,13 @@ def test_should_fail_for_no_given_color(test_input, expected):
 @mock.patch("usb.core.find")
 def test_should_fail_for_multiple_lights_whitout_given_address(usb_find_mock):
     # given
-    usb_find_mock.return_value = [mock.MagicMock(), mock.MagicMock()]
+    def side_effect(*args, **kwargs):
+        if kwargs.get("find_all", False):
+            return [mock.MagicMock(), mock.MagicMock()]
+        else:
+            return mock.MagicMock()
+    # usb_find_mock.return_value = [mock.MagicMock(), mock.MagicMock()]
+    usb_find_mock.side_effect = side_effect
     # then
     assert main(["--red", "on"]) == 1
 
