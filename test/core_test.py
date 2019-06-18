@@ -76,7 +76,7 @@ def test_should_turn_on_led(usb_find_mock, test_input, expected):
 
     # then
     device_mock.write.assert_called_once_with(
-        0x02, [0x00, expected[0], expected[1]]
+        0x02, [0x00, expected[0], expected[1]], timeout=1000
     )
 
 

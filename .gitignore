@@ -7,8 +7,9 @@
 # python bytecode files
 __pycache__/
 
-# coverage folder
+# test files
 .coverage
+.cache/
 
 # Distribution / packaging
 develop-eggs/
