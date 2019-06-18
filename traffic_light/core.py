@@ -1,5 +1,6 @@
 from enum import IntEnum
 
+import functools
 import usb.core
 import usb.util
 
@@ -77,7 +78,7 @@ class ClewareTrafficLight:
         usb_devices = ClewareTrafficLight.find_devices()
         return [ClewareTrafficLight(d.address) for d in usb_devices]
 
-    def set_led(self, color, value):
+    def set_led(self, color, value, timeout=1000):
         """Sets the given state and color of the attached traffic light
 
         Attribute:
@@ -86,7 +87,7 @@ class ClewareTrafficLight:
             address -- the usb address of a specific traffic light
         """
         try:
-            self.device.write(CTRL_ENDPOINT, [0x00, color, value])
+            self.device.write(CTRL_ENDPOINT, [0x00, color, value], timeout=timeout)
         except Exception as exc:
             raise TrafficLightError(str(exc)) from exc
         finally:
@@ -100,7 +101,7 @@ class ClewareTrafficLight:
             state = State[args[1].upper()]
         except:
             raise TrafficLightError("Either the given color or state could not be parsed")
-        return lambda: self.set_led(color, state)
+        return functools.partial(self.set_led, color, state)
 
     def __str__(self):
         """Converts instance into string with important imformations"""
