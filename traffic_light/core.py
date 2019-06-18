@@ -43,7 +43,6 @@ class ClewareTrafficLight:
         if self.device is None:
             raise TrafficLightError('Cleware traffic light not found!')
         self.reattach = False
-        self.detach()
 
     def attach(self):
         """Attaches the device back to the kernel"""
@@ -87,6 +86,7 @@ class ClewareTrafficLight:
             address -- the usb address of a specific traffic light
         """
         try:
+            self.detach()
             self.device.write(CTRL_ENDPOINT, [0x00, color, value], timeout=timeout)
         except Exception as exc:
             raise TrafficLightError(str(exc)) from exc
@@ -99,8 +99,9 @@ class ClewareTrafficLight:
         try:
             color = Color[args[0].upper()]
             state = State[args[1].upper()]
-        except:
-            raise TrafficLightError("Either the given color or state could not be parsed")
+        except Exception as exc:
+            raise TrafficLightError("Either the given color or state could not be parsed! Exc: {}"
+                                    .format(exc))
         return functools.partial(self.set_led, color, state)
 
     def __str__(self):
