@@ -26,6 +26,14 @@ class State(IntEnum):
     ON = 0x1
 
 
+class Direction(IntEnum):
+    LEFT = 1
+    FRONT = 2
+    RIGHT = 4
+    BACK = 8
+    ALL = LEFT | FRONT | RIGHT | BACK
+
+
 class ClewareTrafficLight:
     def __init__(self, address=None):
         if address:
@@ -91,7 +99,7 @@ class ClewareTrafficLight:
         usb_devices = ClewareTrafficLight.find_devices()
         return [ClewareTrafficLight(d.address) for d in usb_devices]
 
-    def _compute_led_payload(self, color, value):
+    def _compute_led_payload(self, color, value, direction):
         if self.device.idProduct == ID_PRODUCT_ORIGINAL:
             return [0x00, color, value]
         elif self.device.idProduct == ID_PRODUCT_SWITCH:
@@ -114,11 +122,12 @@ class ClewareTrafficLight:
             #
             color_id = color % 0x10      # Red = 0, Yellow = 1, Green = 2
             color_offset = color_id * 4  # Red = 0-3, Yellow = 4-7, Green = 8-11
-            return pack(">BHH", 11, (0xf << color_offset) * value, 0xf << color_offset)
+            return pack(">BHH", 11, (direction.value << color_offset) * value,
+                        direction.value << color_offset)
         else:
             raise TrafficLightError("Unknown product ID")
 
-    def set_led(self, color, value, timeout=1000):
+    def set_led(self, color, value, timeout=1000, direction=Direction.ALL):
         """Sets the given state and color of the attached traffic light
 
         Attribute:
@@ -128,7 +137,7 @@ class ClewareTrafficLight:
         """
         try:
             self.detach()
-            payload = self._compute_led_payload(color, value)
+            payload = self._compute_led_payload(color, value, direction)
             self.device.write(CTRL_ENDPOINT, payload, timeout=timeout)
         except Exception as exc:
             raise TrafficLightError(str(exc)) from exc
