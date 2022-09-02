@@ -1,9 +1,10 @@
 from traffic_light.__main__ import main
+from traffic_light.core import ID_PRODUCT_ORIGINAL
 from unittest import mock
 import pytest
 
 
-@mock.patch("usb.core.find")
+@mock.patch("usb.core.find", return_value=mock.MagicMock(idProduct=ID_PRODUCT_ORIGINAL))
 @pytest.mark.parametrize("test_input,expected", [
     (['--all', 'on'], 0),
     (['--all', 'off'], 0),
@@ -22,7 +23,7 @@ def test_should_fail_for_wrong_argument_and_value(test_input):
         main(test_input)
 
 
-@mock.patch("usb.core.find")
+@mock.patch("usb.core.find", return_value=mock.MagicMock(idProduct=ID_PRODUCT_ORIGINAL))
 @pytest.mark.parametrize("test_input,expected", [
     (['--red', 'on'], 0),
     (['--red', 'off'], 0),
@@ -46,7 +47,7 @@ def test_should_fail_for_no_given_color(test_input, expected):
     assert main(test_input) == expected
 
 
-@mock.patch("usb.core.find")
+@mock.patch("usb.core.find", return_value=mock.MagicMock(idProduct=ID_PRODUCT_ORIGINAL))
 def test_should_fail_for_multiple_lights_whitout_given_address(usb_find_mock):
     # given
     def side_effect(*args, **kwargs):
@@ -60,7 +61,7 @@ def test_should_fail_for_multiple_lights_whitout_given_address(usb_find_mock):
     assert main(["--red", "on"]) == 1
 
 
-@mock.patch("usb.core.find")
+@mock.patch("usb.core.find", return_value=mock.MagicMock(idProduct=ID_PRODUCT_ORIGINAL))
 def test_should_fail_for_no_connected_light(usb_find_mock):
     # given
     usb_find_mock.return_value = None
