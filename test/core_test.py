@@ -4,7 +4,7 @@ import pytest
 
 import usb.core
 
-from traffic_light.core import ClewareTrafficLight, Color, State
+from traffic_light.core import ClewareTrafficLight, Color, State, ID_PRODUCT_ORIGINAL
 from traffic_light.error import TrafficLightError, MultipleTrafficLightsError
 
 
@@ -67,7 +67,7 @@ def test_should_fail_for_wrong_state_in_getattr(usb_find_mock):
 ])
 def test_should_turn_on_led(usb_find_mock, test_input, expected):
     # given
-    device_mock = mock.MagicMock()
+    device_mock = mock.MagicMock(idProduct=ID_PRODUCT_ORIGINAL)
     usb_find_mock.return_value = device_mock
     light = ClewareTrafficLight()
 
