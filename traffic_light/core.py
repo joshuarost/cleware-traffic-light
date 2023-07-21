@@ -8,7 +8,7 @@ import usb.util
 from traffic_light.error import TrafficLightError, MultipleTrafficLightsError
 
 CTRL_ENDPOINT = 0x02
-ID_VENDOR = 0x0d50
+ID_VENDOR = 0x0D50
 ID_PRODUCT_ORIGINAL = 0x0008
 ID_PRODUCT_SWITCH = 0x0030
 ID_PRODUCTS = (ID_PRODUCT_ORIGINAL, ID_PRODUCT_SWITCH)
@@ -47,7 +47,7 @@ class ClewareTrafficLight:
         else:
             self.device = self.find_device()
         if self.device is None:
-            raise TrafficLightError('Cleware traffic light not found!')
+            raise TrafficLightError("Cleware traffic light not found!")
         self.reattach = False
 
     def attach(self):
@@ -68,8 +68,7 @@ class ClewareTrafficLight:
         devices = []
 
         for product_id in ID_PRODUCTS:
-            if devs := usb.core.find(find_all=True, idVendor=ID_VENDOR,
-                                     idProduct=product_id):
+            if devs := usb.core.find(find_all=True, idVendor=ID_VENDOR, idProduct=product_id):
                 devices.extend(devs)
 
         return devices
@@ -120,10 +119,9 @@ class ClewareTrafficLight:
             # - value: 16 bits (big endian)
             # - mask: 16 bits (big endian)
             #
-            color_id = color % 0x10      # Red = 0, Yellow = 1, Green = 2
+            color_id = color % 0x10  # Red = 0, Yellow = 1, Green = 2
             color_offset = color_id * 4  # Red = 0-3, Yellow = 4-7, Green = 8-11
-            return pack(">BHH", 11, (direction.value << color_offset) * value,
-                        direction.value << color_offset)
+            return pack(">BHH", 11, (direction.value << color_offset) * value, direction.value << color_offset)
         else:
             raise TrafficLightError("Unknown product ID")
 
@@ -146,18 +144,19 @@ class ClewareTrafficLight:
 
     def __getattr__(self, name):
         """Parses attribut calls in function"""
-        args = name.split('_')
+        args = name.split("_")
         try:
             color = Color[args[0].upper()]
             state = State[args[1].upper()]
         except Exception as exc:
-            raise TrafficLightError("Either the given color or state could not be parsed! Exc: {}"
-                                    .format(exc))
+            raise TrafficLightError("Either the given color or state could not be parsed! Exc: {}".format(exc))
         return functools.partial(self.set_led, color, state)
 
     def __str__(self):
         """Converts instance into string with important imformations"""
-        return ("== Cleware Traffic Light ==\n"
-                "Address: {} \n"
-                "IdVendor: {} \n"
-                "IdProduct: {}".format(self.address, self.device.idVendor, self.device.idProduct))
+        return (
+            "== Cleware Traffic Light ==\n"
+            "Address: {} \n"
+            "IdVendor: {} \n"
+            "IdProduct: {}".format(self.address, self.device.idVendor, self.device.idProduct)
+        )
