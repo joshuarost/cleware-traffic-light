@@ -43,11 +43,15 @@ To use the CLI as a user you first have to create the USB rule
 cd /etc/udev/rules.d/
 
 # create file with the rule
-vi 99-clewareampel.rules
+touch 99-clewareampel.rules
 ```
-**Content**
+**Rule content**
 ```bash
-SUBSYSTEM=="usb", ATTR{idVendor}=="0d50", ATTR{idProduct}=="0008", MODE="666"
+# V4^ (2023-10)
+echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0d50", ATTR{idProduct}=="0008", MODE="660", GROUP="traffic-light"' > 99-clewareampel.rules
+
+# V3 and lower
+echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0d50", ATTR{idProduct}=="0030", MODE="660", GROUP="traffic-light"' > 99-clewareampel.rules
 ```
 
 ## Help
